@@ -2,7 +2,11 @@ import React from 'react'
 import Navbar from '../Navbar/Navbar'
 import Head from 'next/head'
 
-const Layout = (props:any) => {
+const styles = {
+  main: `h-screen overflow-auto pt-20`,
+}
+
+const Layout = (props: any) => {
   return (
     <>
       <Head>
@@ -10,7 +14,7 @@ const Layout = (props:any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      {props?.children}
+      <div className={styles.main}>{props?.children}</div>
     </>
   )
 }
