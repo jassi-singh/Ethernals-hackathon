@@ -2,7 +2,7 @@ import React from 'react'
 import Thumbnail from './Thumbnail'
 
 const styles = {
-  grid: `flex-wrap flex justify-center`,
+  grid: `flex-wrap flex`,
 }
 const videos: any = [
   {
@@ -54,8 +54,8 @@ const videos: any = [
 const Grid = () => {
   return (
     <div className={styles.grid} onClick={() => {}}>
-      {videos.map((video: any) => (
-        <Thumbnail video={video} />
+      {videos.map((video: any, index: number) => (
+        <Thumbnail key={index} video={video} />
       ))}
     </div>
   )
