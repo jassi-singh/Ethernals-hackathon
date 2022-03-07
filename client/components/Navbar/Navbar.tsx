@@ -29,7 +29,7 @@ const Navbar = () => {
         </button>
         {currentAddress && (
           <div className={style.joinButton}>
-            {balance} {currency}
+            {parseFloat(balance).toFixed(2)} {currency}
           </div>
         )}
       </div>

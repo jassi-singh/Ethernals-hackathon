@@ -31,6 +31,7 @@ export const MetamaskProvider = ({ children }) => {
   const connectWallet = async (metamask = eth) => {
     try {
       if (!metamask) return alert('Please install Metamask')
+      await switchToPolygonChain()
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       await provider.send('eth_requestAccounts', [])
     } catch (err) {
@@ -67,6 +68,43 @@ export const MetamaskProvider = ({ children }) => {
         break
       default:
         setCurrency('ETH')
+    }
+  }
+
+  const switchToPolygonChain = async () => {
+    try {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: '0x13881' }],
+      })
+    } catch (switchError) {
+      // This error code indicates that the chain has not been added to MetaMask.
+      if (switchError.code === 4902) {
+        try {
+          await ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [
+              {
+                chainId: '0x13881',
+                chainName: 'Polygon Testnet',
+                nativeCurrency: {
+                  name: 'MATIC',
+                  symbol: 'MATIC',
+                  decimals: 18,
+                },
+                rpcUrls: ['https://matic-mumbai.chainstacklabs.com'],
+                blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
+                iconUrls: [
+                  'https://cdn.freelogovectors.net/wp-content/uploads/2021/10/polygon-token-logo-freelogovectors.net_.png',
+                ],
+              },
+            ],
+          })
+        } catch (addError) {
+          console.log(addError)
+        }
+      }
+      console.log(switchError)
     }
   }
 
